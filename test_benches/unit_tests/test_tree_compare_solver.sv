@@ -89,6 +89,7 @@ initial begin
     #20;
     `assert(result == 'hFF, "smallest among all");
 
+    $display("tree compare solver tests done!");
 end
 
 endmodule

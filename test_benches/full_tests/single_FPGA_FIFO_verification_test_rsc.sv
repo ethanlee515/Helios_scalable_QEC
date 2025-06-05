@@ -13,10 +13,10 @@
 
 module verification_bench_single_FPGA_rsc;
 
-`include "../../parameters/parameters.sv"
+`include "./parameters/parameters.sv"
 `define assert(condition, reason) if(!(condition)) begin $display(reason); $finish(1); end
 
-localparam CODE_DISTANCE = 13;                
+localparam CODE_DISTANCE = 3;                
 localparam CODE_DISTANCE_X = CODE_DISTANCE + 1;
 localparam CODE_DISTANCE_Z = (CODE_DISTANCE_X - 1)/2;
 
@@ -133,6 +133,7 @@ integer i;
 integer j;
 integer k;
 integer file, input_file;
+int v;
 reg open = 1;
 reg input_open = 1;
 reg eof = 0;
@@ -235,7 +236,7 @@ always @(negedge clk) begin
         measurements = 0;
         if(input_open == 1) begin
             if (CODE_DISTANCE == 3) begin
-                input_file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/input_data_3_rsc.txt", "r");
+                input_file = $fopen ("test_benches/test_data/input_data_3_rsc.txt", "r");
             end else if (CODE_DISTANCE == 5) begin
                 input_file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/input_data_5_rsc.txt", "r");
             end else if (CODE_DISTANCE == 7) begin
@@ -258,7 +259,7 @@ always @(negedge clk) begin
             input_open = 0;
         end
         if (input_eof == 0)begin 
-            $fscanf (input_file, "%h\n", test_case);
+            v = $fscanf (input_file, "%h\n", test_case);
             input_eof = $feof(input_file);
             if (input_eof == 0)begin 
                 syndrome_count = 0;
@@ -268,7 +269,7 @@ always @(negedge clk) begin
             for (i=0 ;i <CODE_DISTANCE_X; i++) begin
                 for (j=0 ;j <CODE_DISTANCE_Z; j++) begin
                     if (input_eof == 0)begin 
-                        $fscanf (input_file, "%h\n", input_read_value);
+                        v = $fscanf (input_file, "%h\n", input_read_value);
                         `measurements(i, j, k) = input_read_value;
                         if (input_read_value == 1) begin
                             syndrome_count = syndrome_count + 1;
@@ -289,7 +290,7 @@ always @(posedge clk) begin
 //       $display("%t\tTest case %d pass %d cycles %d iterations %d syndromes", $time, test_case, cycle_counter, iteration_counter, syndrome_count);
        if(open == 1) begin
             if (CODE_DISTANCE == 3) begin
-                file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/output_data_3_rsc.txt", "r");
+                file = $fopen ("test_benches/test_data/output_data_3_rsc.txt", "r");
             end else if (CODE_DISTANCE == 5) begin
                 file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/output_data_5_rsc.txt", "r");
             end else if (CODE_DISTANCE == 7) begin
@@ -304,7 +305,7 @@ always @(posedge clk) begin
             open = 0;
         end
         if (eof == 0)begin 
-            $fscanf (file, "%h\n", test_case);
+            v = $fscanf (file, "%h\n", test_case);
             test_fail = 0;
             eof = $feof(file);
         end
@@ -312,7 +313,7 @@ always @(posedge clk) begin
             for (i=0 ;i <CODE_DISTANCE_X; i++) begin
                 for (j=0 ;j <CODE_DISTANCE_Z; j++) begin
                     if (eof == 0)begin 
-                        $fscanf (file, "%h\n", read_value);
+                        v = $fscanf (file, "%h\n", read_value);
                         if(Z_BIT_WIDTH>0) begin
                             expected_z = read_value[Z_BIT_WIDTH - 1:0];
                         end else begin

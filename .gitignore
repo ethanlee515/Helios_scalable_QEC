@@ -13,4 +13,5 @@ ip_repo/
 plots/*.png
 plots/*.csv
 plots/*.txt
-
+build/
+*.vvp

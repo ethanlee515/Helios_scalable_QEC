@@ -17,7 +17,7 @@ reg out_is_taken;
 
 
 // instantiate
-blocking_channel #(.WIDTH(DATA_WIDTH)) u_blocking_channel(
+blocking_channel #(.WIDTH(DATA_WIDTH), .DEPTH(2)) u_blocking_channel(
     .in_data(in_data),
     .in_valid(in_valid),
     .in_is_full(in_is_full),
@@ -50,11 +50,11 @@ initial begin
     #10;
     `assert(out_valid == 1, "valid data sent through channel");
     `assert(out_data == DATA1, "valid data sent through channel");
-    `assert(in_is_full == 0, "data inserted into the channel with capacity of 2, so it's not full");
+    `assert(in_is_full == 0, "data inserted into the channel with capacity of 2, so it's not full (A)");
     #10;
     `assert(out_valid == 1, "valid data sent through channel");
     `assert(out_data == DATA1, "valid data sent through channel");
-    `assert(in_is_full == 1, "data inserted into the channel with capacity of 2, so it's full");
+    `assert(in_is_full == 1, "data inserted into the channel with capacity of 2, so it's full (A)");
     // take data from the channel
     out_is_taken = 1;
     in_valid = 0;
@@ -72,7 +72,7 @@ initial begin
     #10;
     `assert(out_valid == 1, "valid data sent through channel");
     `assert(out_data == DATA2, "valid data sent through channel");
-    `assert(in_is_full == 0, "data inserted into the channel with capacity of 2, so it's not full");
+    `assert(in_is_full == 0, "data inserted into the channel with capacity of 2, so it's not full (B)");
     in_data = DATA3;
     in_valid = 1;
     out_is_taken = 1;
@@ -90,7 +90,7 @@ initial begin
     #20;
     `assert(out_valid == 1, "valid data sent through channel");
     `assert(out_data == DATA2, "valid data sent through channel");
-    `assert(in_is_full == 1, "data inserted into the channel with capacity of 1, so it's not full");
+    `assert(in_is_full == 1, "data inserted into the channel with capacity of 2, so it's full (B)");
     // try to insert when `in_is_full` is 1, should fail to insert even though the peer is taking the last message
     in_data = DATA3;
     in_valid = 1;
@@ -101,8 +101,8 @@ initial begin
     `assert(out_valid == 0, "data is taken without DATA3 inserted");
     `assert(in_is_full == 0, "data is taken without DATA3 inserted");
     out_is_taken = 0;
-    
-
+    $display("blocking channel test done!");    
+    $finish(0);
 end
 
 always #5 clk = ~clk;  // flip every 10ns, that is 50MHz clock

@@ -33,18 +33,19 @@ module min_val_less_8x_with_index_tb;
         
         // Test case 2: Check minimum value of valid inputs with invalid inputs
         values = {8'h05, 8'h00, 8'hFF, 8'h04, 8'h03, 8'h02};
-        valids = {1, 0, 0, 1, 1, 1};
+        valids = {1'b1, 1'b0, 1'b0, 1'b1, 1'b1, 1'b1};
         #1;
         `assert(result , 8'h02)
         `assert(output_valids , 6'b000001)
 
         // Test case 3: Check minimum value of only invalid inputs
         values = {8'h05, 8'h06, 8'hFF, 8'h04, 8'h03, 8'h02};
-        valids = {0, 0, 0, 0, 0, 0};
+        valids = {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
         #1;
         `assert(output_valids , 0)
 
         // Add more test cases as needed
+        $display("min_val_less_8x_with_index tests passed!");
         $finish;
     end
 endmodule

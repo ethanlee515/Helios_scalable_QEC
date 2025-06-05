@@ -167,5 +167,7 @@ initial begin
     #200;
     output_fifo_rd_en = 1'b1;
     #1000;
+    $display("serdes test done!");
+    $finish(0);
 end
 endmodule

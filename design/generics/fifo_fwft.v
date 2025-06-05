@@ -14,49 +14,6 @@ module fifo_fwft #(
     input  wire             rd_en
     );
     
-    /* A very temporary fix to test size 1 FIFO //*/
-    
-    /*
-    reg  [WIDTH-1:0] fifo;
-    wire in_ready;
-    wire out_valid;
-    reg count;
-    
-    always @(posedge clk) begin
-        if (srst) begin
-            count <= 0;
-        end else begin
-            if (wr_en & in_ready & out_valid & rd_en) begin
-                count <= count;
-            end else if (wr_en & in_ready) begin
-                count <= 1;
-            end else if (out_valid & rd_en) begin
-                count <= 0;
-            end
-        end
-    end
-    
-    always @(posedge clk) begin
-        if (srst) begin
-            ;
-        end else begin
-            if (wr_en & in_ready) begin
-                fifo <= din;
-            end
-        end
-    end
-    
-    assign out_valid = count == 1;
-    assign in_ready = count == 0;
-
-    assign dout = fifo;
-    assign full = !in_ready;
-    assign empty = !out_valid;
-    
-    
-    //*/
-    
-    
     // Instantiate FIFO indexes
     localparam PW = $clog2(DEPTH);
     reg  [PW-1:0]   head;   // Data is dequeued from the head
@@ -108,9 +65,9 @@ module fifo_fwft #(
     end
     
     // Control data output from the FIFO
-    assign out_valid = head != tail;
+    assign out_valid = count != 0; // head != tail;
     assign tail_plus_one = tail + 1;
-    assign in_ready = tail_plus_one != head;
+    assign in_ready = count != DEPTH; // tail_plus_one != head;
 
     assign dout = fifo[head];
     assign full = !in_ready;
