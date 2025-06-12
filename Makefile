@@ -34,3 +34,7 @@ build/blocking_channel.vvp: build design/channels/blocking_channel.sv design/gen
 
 clean:
 	rm -f build/*.vvp
+
+linecount:
+	wc -l $(SV_SRCS)
+
