@@ -38,3 +38,8 @@ clean:
 linecount:
 	wc -l $(SV_SRCS)
 
+build/print_corrections.vvp: build $(SV_SRCS) test_benches/full_tests/print_corrections.sv 
+	iverilog -o build/print_corrections.vvp -g2012 $(SV_SRCS) test_benches/full_tests/print_corrections.sv
+
+print_corrections: build build/print_corrections.vvp
+	vvp build/print_corrections.vvp
