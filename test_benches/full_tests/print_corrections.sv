@@ -1,15 +1,7 @@
 `timescale 1ns / 10ps
 
 // Output file format
-// Each line is 32 bit. Cordinates are entered as two 16 bit entries in a single line
-// Test ID
-// root_of_0,0
-// root_of_0,1
-// .....
-// Test ID
-// root_of_0,0
-// root_of_0,1
-// .......
+// Each line corresponds to a valid payload from `output_fifo`
 
 module print_corrections;
 
@@ -258,7 +250,7 @@ always @(negedge clk) begin
     end
 end
 
-// Output verification logic
+// Writing output onto file
 always @(posedge clk) begin
     if(corrections_open == 1) begin
         corrections_file = $fopen("test_benches/test_data/corrections.txt", "w");
