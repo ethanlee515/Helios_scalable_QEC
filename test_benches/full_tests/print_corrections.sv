@@ -7,7 +7,7 @@ module print_corrections;
 
 `include "./parameters/parameters.sv"
 
-localparam CODE_DISTANCE = 3;                
+localparam CODE_DISTANCE = 7;                
 localparam CODE_DISTANCE_X = CODE_DISTANCE + 1;
 localparam CODE_DISTANCE_Z = (CODE_DISTANCE_X - 1)/2;
 
