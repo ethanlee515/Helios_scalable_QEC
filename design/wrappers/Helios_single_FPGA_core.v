@@ -16,7 +16,7 @@ module Helios_single_FPGA #(
     // roots // A debug port. Do not use in the real implementation
 );
 
-`include "./parameters/parameters.sv"
+`include "../../parameters/parameters.sv"
 
 `define MAX(a, b) (((a) > (b)) ? (a) : (b))
 

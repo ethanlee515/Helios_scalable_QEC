@@ -23,7 +23,7 @@ module unified_controller #(
     global_stage
 );
 
-`include "./parameters/parameters.sv"
+`include "../../parameters/parameters.sv"
 
 `define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
