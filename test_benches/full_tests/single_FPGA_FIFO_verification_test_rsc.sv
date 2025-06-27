@@ -13,7 +13,7 @@
 
 module verification_bench_single_FPGA_rsc;
 
-`include "./parameters/parameters.sv"
+`include "./parameters.sv"
 `define assert(condition, reason) if(!(condition)) begin $display(reason); $finish(1); end
 
 localparam CODE_DISTANCE = 5;                
