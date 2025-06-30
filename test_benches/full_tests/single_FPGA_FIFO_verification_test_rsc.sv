@@ -13,7 +13,7 @@
 
 module verification_bench_single_FPGA_rsc;
 
-`include "./parameters/parameters.sv"
+`include "./parameters.sv"
 `define assert(condition, reason) if(!(condition)) begin $display(reason); $finish(1); end
 
 localparam CODE_DISTANCE = 7;                
@@ -238,7 +238,7 @@ always @(negedge clk) begin
             if (CODE_DISTANCE == 3) begin
                 input_file = $fopen ("test_benches/test_data/input_data_3_rsc.txt", "r");
             end else if (CODE_DISTANCE == 5) begin
-                input_file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/input_data_5_rsc.txt", "r");
+                input_file = $fopen ("test_benches/test_data/input_data_5_rsc.txt", "r");
             end else if (CODE_DISTANCE == 7) begin
                 input_file = $fopen ("test_benches/test_data/input_data_7_rsc.txt", "r");
             end else if (CODE_DISTANCE == 9) begin
@@ -292,7 +292,7 @@ always @(posedge clk) begin
             if (CODE_DISTANCE == 3) begin
                 file = $fopen ("test_benches/test_data/output_data_3_rsc.txt", "r");
             end else if (CODE_DISTANCE == 5) begin
-                file = $fopen ("/home/helios/Helios_scalable_QEC/test_benches/test_data/output_data_5_rsc.txt", "r");
+                file = $fopen ("test_benches/test_data/output_data_5_rsc.txt", "r");
             end else if (CODE_DISTANCE == 7) begin
                 file = $fopen ("test_benches/test_data/output_data_7_rsc.txt", "r");
             end else if (CODE_DISTANCE == 9) begin
