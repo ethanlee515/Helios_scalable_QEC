@@ -7,7 +7,7 @@ module print_corrections;
 
 `include "./parameters.sv"
 
-localparam CODE_DISTANCE = 5;                
+localparam CODE_DISTANCE = 7;                
 localparam CODE_DISTANCE_X = CODE_DISTANCE + 1;
 localparam CODE_DISTANCE_Z = (CODE_DISTANCE_X - 1)/2;
 
@@ -222,7 +222,7 @@ always @(negedge clk) begin
     if (loading_state == 3'b10) begin
         measurements = 0;
         if(input_open == 1) begin
-            input_file = $fopen ("test_benches/test_data/input_data_5_rsc.txt", "r");
+            input_file = $fopen ("test_benches/test_data/input_data_7_rsc.txt", "r");
             input_open = 0;
         end
         if (input_eof == 0)begin 
@@ -253,14 +253,14 @@ end
 // Writing output onto file
 always @(posedge clk) begin
     if(corrections_open == 1) begin
-        corrections_file = $fopen("test_benches/test_data/corrections5.txt", "w");
+        corrections_file = $fopen("test_benches/test_data/corrections_7.txt", "w");
         corrections_open = 0;
     end
     if(decoder.controller.output_fifo_valid) begin
         $fwrite(corrections_file, "%h\n", decoder.controller.output_fifo_data);
         corrections_count = corrections_count + 1;
     end
-    if(corrections_count == 500) begin
+    if(corrections_count == 100 * CODE_DISTANCE) begin
         $fclose(corrections_file);
         $finish;
     end
