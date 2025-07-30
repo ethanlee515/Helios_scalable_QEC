@@ -45,3 +45,9 @@ build/print_corrections.vvp: build $(SV_SRCS) test_benches/full_tests/print_corr
 
 print_corrections: build build/print_corrections.vvp
 	vvp build/print_corrections.vvp
+
+build/test_corner_case.vvp: build $(SV_SRCS) test_benches/full_tests/test_corner_case.sv 
+	iverilog -o build/test_corner_case.vvp -g2012 $(SV_INCS) $(SV_SRCS) test_benches/full_tests/test_corner_case.sv
+
+test_corner_case: build build/test_corner_case.vvp
+	vvp build/test_corner_case.vvp
