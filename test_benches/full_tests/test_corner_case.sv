@@ -199,7 +199,7 @@ end
 always @(negedge clk) begin
     if (loading_state == 3'b10) begin
         measurements = 0;
-        `measurements(2, 0, 0) = 1;
+        `measurements(0, 0, 0) = 1;
     end
 end
 
